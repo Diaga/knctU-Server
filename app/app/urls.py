@@ -14,12 +14,47 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include, reverse
 
 from django.conf.urls.static import static
 from django.conf import settings
 
+from rest_framework.response import Response
+from rest_framework.routers import DefaultRouter, APIRootView
+
+
+class KnctUAPIRootView(APIRootView):
+    """Custom API Root View for KnctU"""
+
+    @staticmethod
+    def get_urL(request, url):
+        """Return hyperlink"""
+        return f'http://{request.get_host()}{url}'
+
+    def get(self, request, *args, **kwargs):
+        """Return custom dict containing all links"""
+        res = {
+            'user': self.get_urL(request, reverse('user:user-view')),
+            'user-detail': self.get_urL(request, reverse('user:user-detail')),
+            'question': self.get_urL(request, reverse('forum:question-view')),
+            'question-detail': self.get_urL(request,
+                                            reverse('forum:question-detail'))
+        }
+
+        return Response(res)
+
+
+class Router(DefaultRouter):
+    """Custom router for KnctU"""
+    root_view_name = 'knctu-api-root'
+    APIRootView = KnctUAPIRootView
+    routes = []
+
+
+router = Router()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/user/', include('user.urls')),
+    path('api/forum/', include('forum.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

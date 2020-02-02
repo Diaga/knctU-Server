@@ -1,3 +1,9 @@
-# from django.contrib import admin
+from django.contrib import admin
 
-# Register your models here.
+from . import models
+
+# User
+admin.site.register(models.User)
+
+# Forum
+admin.site.register(models.Question)

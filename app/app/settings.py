@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'core',
+    'user',
+    'forum'
 ]
 
 MIDDLEWARE = [
@@ -128,4 +130,4 @@ MEDIA_ROOT = '/vol/web/media'
 
 # Declare custom user model
 
-# AUTH_USER_MODEL = 'core.User'
+AUTH_USER_MODEL = 'user.User'
