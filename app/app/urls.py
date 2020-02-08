@@ -27,18 +27,15 @@ class KnctUAPIRootView(APIRootView):
     """Custom API Root View for KnctU"""
 
     @staticmethod
-    def get_urL(request, url):
+    def get_url(request, url):
         """Return hyperlink"""
         return f'http://{request.get_host()}{url}'
 
     def get(self, request, *args, **kwargs):
         """Return custom dict containing all links"""
         res = {
-            'user': self.get_urL(request, reverse('user:user-view')),
-            'user-detail': self.get_urL(request, reverse('user:user-detail')),
-            'question': self.get_urL(request, reverse('forum:question-view')),
-            'question-detail': self.get_urL(request,
-                                            reverse('forum:question-detail'))
+            'user': self.get_url(request, reverse('user:user-view')),
+            'question': self.get_url(request, reverse('forum:question-view'))
         }
 
         return Response(res)
@@ -55,6 +52,6 @@ router = Router()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/user/', include('user.urls')),
-    path('api/forum/', include('forum.urls')),
+    path('api/', include('user.urls')),
+    path('api/', include('forum.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

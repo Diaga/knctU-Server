@@ -39,5 +39,5 @@ router.register('user', views.UserDetailViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('user/token/', views.AuthTokenViewSet.as_view(), name='token-view')
+    path('token/', views.AuthTokenViewSet.as_view(), name='token-view')
 ]
