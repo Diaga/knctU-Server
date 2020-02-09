@@ -142,7 +142,7 @@ USE_TZ = True
 STATIC_URL = '/staticfiles/'
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "../staticfiles")
 MEDIA_ROOT = '/media'
 
 # Declare custom user model
