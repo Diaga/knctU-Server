@@ -26,7 +26,7 @@ SECRET_KEY = '!_z=ha-q*j6bkfl3n3#i8utsdy&w+oo^#q%61c)^$p+k4i$vx_'
 DEBUG = False
 
 ALLOWED_HOSTS = [
-	'178.128.95.39',
+	'api.knctu.com', 'ws.knctu.com'
 ]
 
 
