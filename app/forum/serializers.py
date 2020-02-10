@@ -12,19 +12,19 @@ class ReplySerializer(serializers.ModelSerializer):
     class Meta:
         model = Reply
         fields = ('id', 'text', 'user', 'created_at')
-        read_only_fields = ('id', )
+        read_only_fields = ('id',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
-	"""Serializer for Comment model"""
+    """Serializer for Comment model"""
 
-	replies = ReplySerializer(many=True, read_only=True)
-	user = UserSerializer(read_only=True)
+    replies = ReplySerializer(many=True, read_only=True)
+    user = UserSerializer(read_only=True)
 
-	class Meta:
-		model = Comment
-		fields = ('id', 'text', 'created_at', 'user', 'replies')
-		read_only_fields = ('id', )
+    class Meta:
+        model = Comment
+        fields = ('id', 'text', 'created_at', 'user', 'replies')
+        read_only_fields = ('id',)
 
 
 class AnswerSerializer(serializers.ModelSerializer):
@@ -36,7 +36,7 @@ class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
         fields = ('id', 'text', 'user', 'comments', 'created_at')
-        read_only_fields = ('id', )
+        read_only_fields = ('id',)
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -45,7 +45,22 @@ class QuestionSerializer(serializers.ModelSerializer):
     answers = AnswerSerializer(many=True, read_only=True)
     user = UserSerializer(read_only=True)
 
+    comments_count = serializers.SerializerMethodField('get_comments_count')
+
+    def get_comments_count(self, obj):
+        """Return total number of comments"""
+        answers_queryset = obj.answers.all()
+        comments_queryset = Comment.objects.filter(
+            answer__in=answers_queryset
+        ).all()
+        replies_queryset = Reply.objects.filter(
+            comment__in=comments_queryset
+        ).all()
+        return answers_queryset.count() + comments_queryset.count() + \
+            replies_queryset.count()
+
     class Meta:
         model = Question
-        fields = ('id', 'text', 'user', 'answers', 'created_at')
-        read_only_fields = ('id', )
+        fields = ('id', 'text', 'user', 'answers', 'created_at',
+                  'comments_count')
+        read_only_fields = ('id', 'comments_count')
