@@ -24,7 +24,7 @@ class UserViewSet(viewsets.GenericViewSet,
     def view_user(self, request, *args, **kwargs):
         """Return users"""
         serializer = self.get_serializer(
-            self.get_queryset(), many=True
+            self.request.user
         )
         return Response(serializer.data, status=status.HTTP_200_OK)
 
