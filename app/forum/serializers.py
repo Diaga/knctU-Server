@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.models import Question, Answer, Reply
+from core.models import Question, Answer, Comment, Reply
 from user.serializers import UserSerializer
 
 
@@ -15,15 +15,27 @@ class ReplySerializer(serializers.ModelSerializer):
         read_only_fields = ('id', )
 
 
+class CommentSerializer(serializers.ModelSerializer):
+	"""Serializer for Comment model"""
+
+	replies = ReplySerializer(many=True, read_only=True)
+	user = UserSerializer(read_only=True)
+
+	class Meta:
+		model = Comment
+		fields = ('id', 'text', 'created_at', 'user')
+		read_only_fields = ('id', )
+
+
 class AnswerSerializer(serializers.ModelSerializer):
     """Serializer for Answer model"""
 
-    replies = ReplySerializer(many=True, read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
     user = UserSerializer(read_only=True)
 
     class Meta:
         model = Answer
-        fields = ('id', 'text', 'user', 'replies', 'created_at')
+        fields = ('id', 'text', 'user', 'comments', 'created_at')
         read_only_fields = ('id', )
 
 
