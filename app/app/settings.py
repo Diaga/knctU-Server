@@ -12,7 +12,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -23,9 +22,8 @@ SECRET_KEY = '!_z=ha-q*j6bkfl3n3#i8utsdy&w+oo^#q%61c)^$p+k4i$vx_'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-	'localhost',
+    'localhost',
 ]
-
 
 # Application definition
 
@@ -41,7 +39,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'core',
     'user',
-    'forum'
+    'forum',
+    'chat'
 ]
 
 MIDDLEWARE = [
@@ -74,7 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 ASGI_APPLICATION = 'app.routing.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -114,7 +112,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -128,7 +125,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
@@ -137,7 +133,6 @@ MEDIA_URL = '/media/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_ROOT = '/media'
-
 
 # Declare custom user model
 
