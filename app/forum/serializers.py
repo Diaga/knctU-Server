@@ -33,10 +33,20 @@ class AnswerSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     user = UserSerializer(read_only=True)
 
+    comments_count = serializers.SerializerMethodField('get_comments_count')
+
+    def get_comments_count(self, obj):
+        """Return total number of comments"""
+        comments_queryset = obj.comments.all()
+        replies_queryset = Reply.objects.filter(
+            comment__in=comments_queryset
+        ).all()
+        return comments_queryset.count() + replies_queryset.count()
+
     class Meta:
         model = Answer
-        fields = ('id', 'text', 'user', 'comments', 'created_at')
-        read_only_fields = ('id',)
+        fields = ('id', 'text', 'user', 'comments', 'created_at', 'comments_count')
+        read_only_fields = ('id', 'comments_count')
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -45,22 +55,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     answers = AnswerSerializer(many=True, read_only=True)
     user = UserSerializer(read_only=True)
 
-    comments_count = serializers.SerializerMethodField('get_comments_count')
-
-    def get_comments_count(self, obj):
-        """Return total number of comments"""
-        answers_queryset = obj.answers.all()
-        comments_queryset = Comment.objects.filter(
-            answer__in=answers_queryset
-        ).all()
-        replies_queryset = Reply.objects.filter(
-            comment__in=comments_queryset
-        ).all()
-        return answers_queryset.count() + comments_queryset.count() + \
-            replies_queryset.count()
-
     class Meta:
         model = Question
-        fields = ('id', 'text', 'user', 'answers', 'created_at',
-                  'comments_count')
-        read_only_fields = ('id', 'comments_count')
+        fields = ('id', 'text', 'user', 'answers', 'created_at')
+        read_only_fields = ('id', )
