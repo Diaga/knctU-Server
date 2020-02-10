@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '!_z=ha-q*j6bkfl3n3#i8utsdy&w+oo^#q%61c)^$p+k4i$vx_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
 	'api.knctu.com', 'ws.knctu.com'
