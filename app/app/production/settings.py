@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'core',
     'user',
-    'forum'
+    'forum',
+    'chat'
 ]
 
 MIDDLEWARE = [
