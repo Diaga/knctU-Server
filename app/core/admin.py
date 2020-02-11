@@ -22,6 +22,7 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
 
+
 # User
 admin.site.register(models.User, UserAdmin)
 
@@ -30,3 +31,8 @@ admin.site.register(models.Question)
 admin.site.register(models.Answer)
 admin.site.register(models.Comment)
 admin.site.register(models.Reply)
+
+# Chat
+admin.site.register(models.ChatRoom)
+admin.site.register(models.Message)
+admin.site.register(models.MessageUser)

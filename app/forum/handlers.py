@@ -8,7 +8,7 @@ class QuestionHandler(GenericHandler):
 
     def is_valid(self):
         """Check if consumer is valid"""
-        return self.user is not None
+        return self.user.is_authenticated
 
     def get_group_name(self):
         """Return group name"""
@@ -16,5 +16,5 @@ class QuestionHandler(GenericHandler):
 
     @staticmethod
     def update_question(info, instance):
-        return QuestionHandler.update(QuestionSerializer, info,
-                                      instance)
+        return QuestionHandler.update(info, QuestionSerializer(instance),
+                                      [instance.id])

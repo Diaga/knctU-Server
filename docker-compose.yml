@@ -22,6 +22,7 @@ services:
       - DB_PASS=somethingsecretpassword
       - REDIS_HOST=redis
       - DJANGO_SETTINGS_MODULE=app.production.settings
+      - DJANGO_ALLOW_ASYNC_UNSAFE=True
     depends_on:
       - db
 

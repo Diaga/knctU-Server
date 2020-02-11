@@ -20,9 +20,8 @@ class GenericHandler(ABC):
         pass
 
     @staticmethod
-    def update(serializer_class, info, instance):
+    def update(info, serializer, channel_ids):
         """Send change event to all subscribed clients"""
-        serializer = serializer_class(instance)
         channel_layer = get_channel_layer()
 
         content = {
@@ -35,4 +34,5 @@ class GenericHandler(ABC):
             'content': content
         }
 
-        async_to_sync(channel_layer.group_send)(str(instance.id), wrapper)
+        for channel_id in channel_ids:
+            async_to_sync(channel_layer.group_send)(str(channel_id), wrapper)

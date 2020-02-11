@@ -103,7 +103,7 @@ class Question(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        result = super(Question, self).save(
+        instance = super(Question, self).save(
             force_insert=force_insert, force_update=force_update, using=using,
             update_fields=update_fields
         )
@@ -112,7 +112,7 @@ class Question(models.Model):
             QuestionHandler.update_question('UPDATE_QUESTION',
                                             self)
 
-        return result
+        return instance
 
     def __str__(self):
         return self.text
@@ -135,7 +135,7 @@ class Answer(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        result = super(Answer, self).save(
+        instance = super(Answer, self).save(
             force_insert=force_insert, force_update=force_update, using=using,
             update_fields=update_fields
         )
@@ -143,7 +143,7 @@ class Answer(models.Model):
         if len(changed_fields) != 0:
             QuestionHandler.update_question('UPDATE_QUESTION', self.question)
 
-        return result
+        return instance
 
     def __str__(self):
         return self.text
@@ -166,7 +166,7 @@ class Comment(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        result = super(Comment, self).save(
+        instance = super(Comment, self).save(
             force_insert=force_insert, force_update=force_update, using=using,
             update_fields=update_fields
         )
@@ -175,7 +175,7 @@ class Comment(models.Model):
             QuestionHandler.update_question(
                 'UPDATE_QUESTION', self.answer.question)
 
-        return result
+        return instance
 
     def __str__(self):
         return self.text
@@ -198,7 +198,7 @@ class Reply(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        result = super(Reply, self).save(
+        instance = super(Reply, self).save(
             force_insert=force_insert, force_update=force_update, using=using,
             update_fields=update_fields
         )
@@ -207,10 +207,102 @@ class Reply(models.Model):
             QuestionHandler.update_question(
                 'UPDATE_QUESTION', self.comment.answer.question)
 
-        return result
+        return instance
 
     def __str__(self):
         return self.text
 
 
+class ChatRoom(models.Model):
+    """ChatRoom model"""
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    name = models.CharField(max_length=255, default='@bidirectional')
+    users = models.ManyToManyField(User)
+
+    tracker = FieldTracker()
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        instance = super(ChatRoom, self).save(
+            force_insert=force_insert, force_update=force_update, using=using,
+            update_fields=update_fields
+        )
+        changed_fields = self.tracker.changed()
+        if len(changed_fields) != 0:
+            ChatRoomHandler.update_chat_room(
+                'UPDATE_CHAT_ROOM', self)
+
+        return instance
+
+    class Meta:
+        app_label = 'chat'
+        default_related_name = 'chat_rooms'
+
+    def __str__(self):
+        return self.name
+
+
+class Message(models.Model):
+    """Message model"""
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    text = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    chat_room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    tracker = FieldTracker()
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        instance = super(Message, self).save(
+            force_insert=force_insert, force_update=force_update, using=using,
+            update_fields=update_fields
+        )
+        changed_fields = self.tracker.changed()
+        if len(changed_fields) != 0:
+            ChatRoomHandler.update_chat_room(
+                'UPDATE_CHAT_ROOM', self.chat_room)
+
+        return instance
+
+    class Meta:
+        app_label = 'chat'
+        default_related_name = 'messages'
+
+    def __str__(self):
+        return self.text
+
+
+class MessageUser(models.Model):
+    """MessageUser model generated for every user in the user group"""
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_read = models.BooleanField(default=False)
+
+    tracker = FieldTracker()
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        instance = super(MessageUser, self).save(
+            force_insert=force_insert, force_update=force_update, using=using,
+            update_fields=update_fields
+        )
+        changed_fields = self.tracker.changed()
+        if len(changed_fields) != 0:
+            ChatRoomHandler.update_chat_room(
+                'UPDATE_CHAT_ROOM', self.message.chat_room)
+
+        return instance
+
+    class Meta:
+        app_label = 'chat'
+        default_related_name = 'message_users'
+
+    def __str__(self):
+        return f'{self.message.text} - {self.user.name}'
+
+
 from forum.handlers import QuestionHandler
+from chat.handlers import ChatRoomHandler

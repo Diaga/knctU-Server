@@ -1,5 +1,6 @@
 from channels.generic.websocket import JsonWebsocketConsumer
 
+from chat.handlers import ChatRoomHandler
 from forum.handlers import QuestionHandler
 
 from asgiref.sync import async_to_sync
@@ -11,6 +12,13 @@ class SubscribeConsumer(JsonWebsocketConsumer):
     def connect(self):
         """Always accept connections"""
         self.accept()
+        user = self.scope.get('user', None)
+        if user.is_authenticated:
+            group_name = str(user.id)
+            self.groups.append(group_name)
+            async_to_sync(self.channel_layer.group_add)(
+                group_name, self.channel_name
+            )
 
     def notify(self, event):
         """Pass of handling events to handlers"""
@@ -24,7 +32,7 @@ class SubscribeConsumer(JsonWebsocketConsumer):
         if not handler.is_valid():
             return {'error': 'Permission denied!'}
 
-        group_name = handler.get_group_name()
+        group_name = str(handler.get_group_name())
         self.groups.append(group_name)
 
         async_to_sync(self.channel_layer.group_add)(
@@ -37,4 +45,10 @@ class SubscribeConsumer(JsonWebsocketConsumer):
         model = data.get('model', None)
         if model == 'forum.question':
             return QuestionHandler(self.scope.get('user', None), data)
+        elif model == 'chat.chat_room':
+            handler = ChatRoomHandler(self.scope.get('user', None), data)
+            if handler.is_valid():
+                handler.handle_db()
+            return handler
         return None
+

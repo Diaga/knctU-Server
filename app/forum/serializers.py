@@ -12,7 +12,7 @@ class ReplySerializer(serializers.ModelSerializer):
     class Meta:
         model = Reply
         fields = ('id', 'text', 'user', 'created_at')
-        read_only_fields = ('id',)
+        read_only_fields = ('id', 'created_at')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -23,7 +23,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('id', 'text', 'created_at', 'user', 'replies')
+        fields = ('id', 'text', 'created_at', 'user', 'replies',
+                  'created_at')
         read_only_fields = ('id',)
 
 
@@ -45,8 +46,9 @@ class AnswerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Answer
-        fields = ('id', 'text', 'user', 'comments', 'created_at', 'comments_count')
-        read_only_fields = ('id', 'comments_count')
+        fields = ('id', 'text', 'user', 'comments', 'created_at',
+                  'comments_count')
+        read_only_fields = ('id', 'comments_count', 'created_at')
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -58,4 +60,4 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ('id', 'text', 'user', 'answers', 'created_at')
-        read_only_fields = ('id', )
+        read_only_fields = ('id', 'created_at')
