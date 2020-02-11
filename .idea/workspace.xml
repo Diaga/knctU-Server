@@ -3,14 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="cc58a5b5-a2d6-4682-a4bf-fbe97661ff3a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/chat/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/chat/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/consumers.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/consumers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/handlers.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/handlers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/forum/handlers.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forum/handlers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/forum/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forum/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/chat/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/chat/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/chat/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/chat/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +102,8 @@
       <workItem from="1581283661372" duration="107000" />
       <workItem from="1581352531084" duration="580000" />
       <workItem from="1581353130863" duration="4000" />
-      <workItem from="1581355063839" duration="17588000" />
+      <workItem from="1581355063839" duration="17829000" />
+      <workItem from="1581426622619" duration="432000" />
     </task>
     <servers />
   </component>
@@ -161,9 +156,9 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="184" y="7" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1581171279273" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1581084243125">
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1581426726412">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1581084243125" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1581426726412" />
   </component>
 </project>
