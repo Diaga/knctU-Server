@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from core.models import Question, Answer, Comment, Reply
-from user.serializers import UserSerializer
+from core.models import Question, Answer, Comment, Reply, Tag
+from user.serializers import UserSerializer, TagSerializer
 
 
 class ReplySerializer(serializers.ModelSerializer):
@@ -56,8 +56,9 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     answers = AnswerSerializer(many=True, read_only=True)
     user = UserSerializer(read_only=True)
+    tags = TagSerializer(many=True)
 
     class Meta:
         model = Question
-        fields = ('id', 'text', 'user', 'answers', 'created_at')
+        fields = ('id', 'text', 'user', 'answers', 'created_at', 'tags')
         read_only_fields = ('id', 'created_at')

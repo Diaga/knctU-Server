@@ -31,6 +31,17 @@ router.routes += [
         name='user-detail',
         detail=True,
         initkwargs={'suffix': 'Detail'}
+    ),
+
+    # Tag View Route
+    Route(
+        url=r'^tag{trailing_slash}{lookup}{trailing_slash}$',
+        mapping={
+            'get': 'view_tag'
+        },
+        name='tag-view',
+        detail=False,
+        initkwargs={'suffix': 'View'}
     )
 ]
 

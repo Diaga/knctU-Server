@@ -2,15 +2,26 @@ from django.contrib.auth import authenticate
 
 from rest_framework import serializers
 
-from core.models import User
+from core.models import User, Tag
+
+
+class TagSerializer(serializers.ModelSerializer):
+    """Serializer for Tag model"""
+
+    class Meta:
+        model = Tag
+        fields = ('id', 'name')
+        read_only_fields = ('id', )
 
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for User model"""
 
+    tags = TagSerializer(many=True)
+
     class Meta:
         model = User
-        fields = ('id', 'name', 'email', 'password', 'title')
+        fields = ('id', 'name', 'email', 'password', 'title', 'tags')
         read_only_fields = ('id', )
         extra_kwargs = {
             'password': {'write_only': True}
