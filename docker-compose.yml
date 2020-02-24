@@ -23,6 +23,7 @@ services:
       - REDIS_HOST=redis
       - DJANGO_SETTINGS_MODULE=app.production.settings
       - DJANGO_ALLOW_ASYNC_UNSAFE=True
+      - DEBUG=False
     depends_on:
       - db
 
