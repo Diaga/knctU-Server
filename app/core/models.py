@@ -7,6 +7,19 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, \
 from model_utils import FieldTracker
 
 
+class Tag(models.Model):
+    """Tag model"""
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    name = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        app_label = 'forum'
+        default_related_name = 'tags'
+
+    def __str__(self):
+        return self.name
+
+
 def user_avatar_path(instance, file_name):
     """Return file path"""
     return file_name
@@ -48,6 +61,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+
+    tags = models.ManyToManyField(Tag)
 
     objects = UserManager()
 
@@ -94,6 +109,8 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    tags = models.ManyToManyField(Tag)
 
     tracker = FieldTracker()
 
