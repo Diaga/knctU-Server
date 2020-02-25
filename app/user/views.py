@@ -47,10 +47,6 @@ class UserDetailViewSet(viewsets.GenericViewSet,
 
     serializer_class = serializers.UserSerializer
 
-    def get_queryset(self):
-        """Enforce scope"""
-        return self.request.user
-
     def view_user_by_id(self, request, *args, **kwargs):
         """Wrapper around retrieve method for view set distinction"""
         return self.retrieve(request, *args, **kwargs)
