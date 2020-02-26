@@ -21,13 +21,9 @@ class ReplySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reply
-        fields = ('id', 'text', 'user', 'created_at')
+        fields = ('id', 'text', 'user', 'created_at', 'comment')
         read_only_fields = ('id', 'created_at')
-
-    def create(self, validated_data):
-        """Add authenticated user"""
-        validated_data.update({'user': self.context['request'].user})
-        return super(ReplySerializer, self).create(validated_data)
+        extra_kwargs = {'comment': {'write_only': True}} 
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -39,13 +35,9 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'text', 'created_at', 'user', 'replies',
-                  'created_at')
+                  'created_at', 'answer')
         read_only_fields = ('id',)
-
-    def create(self, validated_data):
-        """Add authenticated user"""
-        validated_data.update({'user': self.context['request'].user})
-        return super(CommentSerializer, self).create(validated_data)
+        extra_kwargs = {'answer': {'write_only': True}} 
 
 
 class AnswerSerializer(serializers.ModelSerializer):

@@ -129,6 +129,10 @@ class CommentViewSet(viewsets.GenericViewSet,
 
     queryset = Comment.objects.all()
 
+    def perform_create(self, serializer):
+        """Update with user"""
+        serializer.save(user=self.request.user)
+
     def create_comment(self, request, *args, **kwargs):
         """Wrapper around create method for view set distinction"""
         return self.create(request, *args, **kwargs)
@@ -178,6 +182,10 @@ class ReplyViewSet(viewsets.GenericViewSet,
     serializer_class = serializers.ReplySerializer
 
     queryset = Reply.objects.all()
+
+    def perform_create(self, serializer):
+        """Update with user"""
+        serializer.save(user=self.request.user)
 
     def create_reply(self, request, *args, **kwargs):
         """Wrapper around create method for view set distinction"""
