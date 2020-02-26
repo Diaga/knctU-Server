@@ -31,7 +31,7 @@ class QuestionViewSet(viewsets.GenericViewSet,
         serializer = self.get_serializer(
             self.get_queryset().filter(
                 answers__isnull=False
-            ).all(), many=True
+            ).distinct().all(), many=True
         )
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -53,7 +53,7 @@ class QuestionDetailViewSet(viewsets.GenericViewSet,
     queryset = Question.objects.all()
 
     serializer_class = serializers.QuestionSerializer
-    
+
     def view_question_by_id(self, request, *args, **kwargs):
         """Wrapper around retrieve method for view set distinction"""
         return self.retrieve(request, *args, **kwargs)
