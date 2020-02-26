@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cc58a5b5-a2d6-4682-a4bf-fbe97661ff3a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/forum/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forum/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/forum/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forum/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/forum/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forum/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="cc58a5b5-a2d6-4682-a4bf-fbe97661ff3a" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -106,7 +102,7 @@
       <workItem from="1581426622619" duration="532000" />
       <workItem from="1581444281896" duration="81000" />
       <workItem from="1582568923461" duration="1101000" />
-      <workItem from="1582712319771" duration="3846000" />
+      <workItem from="1582712319771" duration="4183000" />
     </task>
     <servers />
   </component>
