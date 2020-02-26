@@ -16,5 +16,5 @@ class QuestionHandler(GenericHandler):
 
     @staticmethod
     def update_question(info, instance, user=None):
-        return QuestionHandler.update(info, QuestionSerializer(instance, 'context': {'user': None}),
+        return QuestionHandler.update(info, QuestionSerializer(instance, context={'user': None}),
                                       [instance.id])
