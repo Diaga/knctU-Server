@@ -24,6 +24,11 @@ class ReplySerializer(serializers.ModelSerializer):
         fields = ('id', 'text', 'user', 'created_at')
         read_only_fields = ('id', 'created_at')
 
+    def create(self, validated_data):
+        """Add authenticated user"""
+        validated_data.update({'user': self.context['user'].user})
+        return super(ReplySerializer, self).create(validated_data)
+
 
 class CommentSerializer(serializers.ModelSerializer):
     """Serializer for Comment model"""
@@ -36,6 +41,11 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ('id', 'text', 'created_at', 'user', 'replies',
                   'created_at')
         read_only_fields = ('id',)
+
+    def create(self, validated_data):
+        """Add authenticated user"""
+        validated_data.update({'user': self.context['user'].user})
+        return super(CommentSerializer, self).create(validated_data)
 
 
 class AnswerSerializer(serializers.ModelSerializer):
@@ -91,6 +101,11 @@ class AnswerSerializer(serializers.ModelSerializer):
                   'comments_count', 'info_user', 'upvote_count', 'view_count')
         read_only_fields = ('id', 'comments_count', 'created_at')
 
+    def create(self, validated_data):
+        """Add authenticated user"""
+        validated_data.update({'user': self.context['user'].user})
+        return super(AnswerSerializer, self).create(validated_data)
+
 
 class QuestionSerializer(serializers.ModelSerializer):
     """Serializer for Question model"""
@@ -135,3 +150,8 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = ('id', 'text', 'user', 'answers', 'created_at', 'tags',
                   'info_user', 'upvote_count', 'view_count')
         read_only_fields = ('id', 'created_at')
+
+    def create(self, validated_data):
+        """Add authenticated user"""
+        validated_data.update({'user': self.context['user'].user})
+        return super(QuestionSerializer, self).create(validated_data)

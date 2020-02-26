@@ -45,6 +45,81 @@ router.routes += [
         initkwargs={'suffix': 'Detail'}
     ),
 
+    # Answer View Route
+    Route(
+        url=r'^forum{trailing_slash}answer{trailing_slash}$',
+        mapping={
+            'post': 'create_answer'
+        },
+        name='answer-view',
+        detail=False,
+        initkwargs={'suffix': 'View'}
+    ),
+
+    # Answer Detail Route
+    Route(
+        url=r'^forum{trailing_slash}answer{trailing_slash}{lookup}'
+            r'{trailing_slash}$',
+        mapping={
+            'get': 'view_answer_by_id',
+            'patch': 'update_answer_by_id',
+            'delete': 'destroy_answer_by_id'
+        },
+        name='answer-detail',
+        detail=True,
+        initkwargs={'suffix': 'Detail'}
+    ),
+
+    # Comment View Route
+    Route(
+        url=r'^forum{trailing_slash}comment{trailing_slash}$',
+        mapping={
+            'post': 'create_comment'
+        },
+        name='comment-view',
+        detail=False,
+        initkwargs={'suffix': 'View'}
+    ),
+
+    # Comment Detail Route
+    Route(
+        url=r'^forum{trailing_slash}comment{trailing_slash}{lookup}'
+            r'{trailing_slash}$',
+        mapping={
+            'get': 'view_comment_by_id',
+            'patch': 'update_comment_by_id',
+            'delete': 'destroy_comment_by_id'
+        },
+        name='comment-detail',
+        detail=True,
+        initkwargs={'suffix': 'Detail'}
+    ),
+
+    # Reply View Route
+    Route(
+        url=r'^forum{trailing_slash}reply{trailing_slash}$',
+        mapping={
+            'post': 'create_reply'
+        },
+        name='reply-view',
+        detail=False,
+        initkwargs={'suffix': 'View'}
+    ),
+
+    # Reply Detail Route
+    Route(
+        url=r'^forum{trailing_slash}reply{trailing_slash}{lookup}'
+            r'{trailing_slash}$',
+        mapping={
+            'get': 'view_reply_by_id',
+            'patch': 'update_reply_by_id',
+            'delete': 'destroy_reply_by_id'
+        },
+        name='reply-detail',
+        detail=True,
+        initkwargs={'suffix': 'Detail'}
+    ),
+
     # Info User Detail View Set
     Route(
         url=r'^forum{trailing_slash}info{trailing_slash}user{trailing_slash}'
@@ -56,11 +131,13 @@ router.routes += [
         name='info-user-detail',
         detail=True,
         initkwargs={'suffix': 'Detail'}
-    )
+    ),
 ]
 
 router.register('forum', views.QuestionViewSet)
 router.register('forum', views.QuestionDetailViewSet)
+router.register('forum', views.AnswerViewSet)
+router.register('forum', views.AnswerDetailViewSet)
 
 urlpatterns = [
     path('', include(router.urls))
