@@ -72,7 +72,6 @@ class AnswerSerializer(serializers.ModelSerializer):
                 return None
         else:
             user = request.user
-            return None
         query = obj.info_user_set.filter(
             user=user
         )
@@ -140,8 +139,6 @@ class QuestionSerializer(serializers.ModelSerializer):
                 return None
         else:
             user = request.user
-            return None
-
         query = obj.info_user_set.filter(
             user=user
         )
