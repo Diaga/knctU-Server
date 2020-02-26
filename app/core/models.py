@@ -94,9 +94,31 @@ class InfoUser(models.Model):
     reply = models.ForeignKey('Reply', on_delete=models.CASCADE,
                               null=True)
 
+    tracker = FieldTracker()
+
     class Meta:
         app_label = 'forum'
         default_related_name = 'info_user_set'
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        instance = super(InfoUser, self).save(
+            force_insert=force_insert, force_update=force_update, using=using,
+            update_fields=update_fields
+        )
+        changed_fields = self.tracker.changed()
+        if len(changed_fields) != 0:
+            if self.question:
+                QuestionHandler.update_question('UPDATE_QUESTION',
+                                                self.question)
+            elif self.answer:
+                QuestionHandler.update_question('UPDATE_QUESTION', self.question)
+            elif self.comment:
+                QuestionHandler.update_question('UPDATE_QUESTION', self.answer.question)
+            elif self.reply:
+                QuestionHandler.update_question('UPDATE_QUESTION', self.comment.answer.question)
+
+        return instance
 
     def __str__(self):
         return f'InfoUser: {self.user.name}'
