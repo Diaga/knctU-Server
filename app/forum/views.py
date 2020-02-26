@@ -53,13 +53,7 @@ class QuestionDetailViewSet(viewsets.GenericViewSet,
     queryset = Question.objects.all()
 
     serializer_class = serializers.QuestionSerializer
-
-    def get_queryset(self):
-        """Enforce scope"""
-        return super(QuestionDetailViewSet, self).get_queryset().filter(
-            user=self.request.user
-        ).all()
-
+    
     def view_question_by_id(self, request, *args, **kwargs):
         """Wrapper around retrieve method for view set distinction"""
         return self.retrieve(request, *args, **kwargs)
