@@ -62,7 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
 
     objects = UserManager()
 
@@ -132,7 +132,7 @@ class Question(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
 
     tracker = FieldTracker()
 
