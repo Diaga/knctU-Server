@@ -26,7 +26,7 @@ class ReplySerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """Add authenticated user"""
-        validated_data.update({'user': self.context['user'].user})
+        validated_data.update({'user': self.context['request'].user})
         return super(ReplySerializer, self).create(validated_data)
 
 
@@ -44,7 +44,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """Add authenticated user"""
-        validated_data.update({'user': self.context['user'].user})
+        validated_data.update({'user': self.context['request'].user})
         return super(CommentSerializer, self).create(validated_data)
 
 
@@ -112,7 +112,7 @@ class AnswerSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """Add authenticated user"""
-        validated_data.update({'user': self.context['user'].user})
+        validated_data.update({'user': self.context['request'].user})
         return super(AnswerSerializer, self).create(validated_data)
 
 
@@ -171,5 +171,5 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """Add authenticated user"""
-        validated_data.update({'user': self.context['user'].user})
+        validated_data.update({'user': self.context['request'].user})
         return super(QuestionSerializer, self).create(validated_data)
