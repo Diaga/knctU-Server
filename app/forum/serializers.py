@@ -60,7 +60,7 @@ class AnswerSerializer(serializers.ModelSerializer):
             return InfoUserSerializer(query.first()).data
         return InfoUserSerializer(
             InfoUser.objects.create(
-                name='answer', user=user, question=obj,
+                name='answer', user=user, answer=obj,
                 has_viewed=True
             )
         )
