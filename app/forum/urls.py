@@ -138,6 +138,10 @@ router.register('forum', views.QuestionViewSet)
 router.register('forum', views.QuestionDetailViewSet)
 router.register('forum', views.AnswerViewSet)
 router.register('forum', views.AnswerDetailViewSet)
+router.register('forum', views.CommentViewSet)
+router.register('forum', views.CommentDetailViewSet)
+router.register('forum', views.ReplyViewSet)
+router.register('forum', views.ReplyDetailViewSet)
 
 urlpatterns = [
     path('', include(router.urls))
