@@ -63,7 +63,7 @@ class AnswerSerializer(serializers.ModelSerializer):
                 name='answer', user=user, answer=obj,
                 has_viewed=True
             )
-        )
+        ).data
 
     def get_upvote_count(self, obj):
         """Return upvote count"""
@@ -116,7 +116,7 @@ class QuestionSerializer(serializers.ModelSerializer):
                 name='question', user=user, question=obj,
                 has_viewed=True
             )
-        )
+        ).data
 
     def get_upvote_count(self, obj):
         """Return upvote count"""
