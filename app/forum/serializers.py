@@ -62,7 +62,10 @@ class AnswerSerializer(serializers.ModelSerializer):
 
     def get_info_user(self, obj):
         """Return current info user"""
-        user = self.context['request'].user
+        request = self.context.get('request', None)
+        if request is None:
+            return None
+        user = request.user
         query = obj.info_user_set.filter(
             user=user
         )
@@ -120,7 +123,10 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     def get_info_user(self, obj):
         """Return current info user"""
-        user = self.context['request'].user
+        request = self.context.get('request', None)
+        if request is None:
+            return None
+        user = request.user
         query = obj.info_user_set.filter(
             user=user
         )
