@@ -1,7 +1,17 @@
 from rest_framework import serializers
 
-from core.models import Question, Answer, Comment, Reply, Tag
+from core.models import Question, Answer, Comment, Reply, Tag, InfoUser
 from user.serializers import UserSerializer, TagSerializer
+
+
+class InfoUserSerializer(serializers.ModelSerializer):
+    """Serializer for Info User"""
+
+    class Meta:
+        model = InfoUser
+        fields = ('id', 'name', 'has_upvoted', 'has_viewed', 'has_shared',
+                  'question', 'answer', 'comment', 'reply')
+        read_only_fields = ('id', )
 
 
 class ReplySerializer(serializers.ModelSerializer):
@@ -36,6 +46,37 @@ class AnswerSerializer(serializers.ModelSerializer):
 
     comments_count = serializers.SerializerMethodField('get_comments_count')
 
+    info_user = serializers.SerializerMethodField('get_info_user')
+    upvote_count = serializers.SerializerMethodField('get_upvote_count')
+    view_count = serializers.SerializerMethodField('get_view_count')
+
+    def get_info_user(self, obj):
+        """Return current info user"""
+        user = self.context['request'].user
+        query = obj.filter(
+            info_user_set__user=user
+        )
+        if query.exists():
+            return InfoUserSerializer(query.first()).data
+        return InfoUserSerializer(
+            InfoUser.objects.create(
+                name='answer', user=user, question=obj,
+                has_viewed=True
+            )
+        )
+
+    def get_upvote_count(self, obj):
+        """Return upvote count"""
+        return obj.info_user_set.filter(
+            has_upvoted=True
+        ).count()
+
+    def get_view_count(self, obj):
+        """Return view count"""
+        return obj.info_user_set.filter(
+            has_viewed=True
+        ).count()
+
     def get_comments_count(self, obj):
         """Return total number of comments"""
         comments_queryset = obj.comments.all()
@@ -47,7 +88,7 @@ class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
         fields = ('id', 'text', 'user', 'comments', 'created_at',
-                  'comments_count')
+                  'comments_count', 'info_user', 'upvote_count', 'view_count')
         read_only_fields = ('id', 'comments_count', 'created_at')
 
 
@@ -58,7 +99,39 @@ class QuestionSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     tags = TagSerializer(many=True)
 
+    info_user = serializers.SerializerMethodField('get_info_user')
+    upvote_count = serializers.SerializerMethodField('get_upvote_count')
+    view_count = serializers.SerializerMethodField('get_view_count')
+
+    def get_info_user(self, obj):
+        """Return current info user"""
+        user = self.context['request'].user
+        query = obj.filter(
+            info_user_set__user=user
+        )
+        if query.exists():
+            return InfoUserSerializer(query.first()).data
+        return InfoUserSerializer(
+            InfoUser.objects.create(
+                name='question', user=user, question=obj,
+                has_viewed=True
+            )
+        )
+
+    def get_upvote_count(self, obj):
+        """Return upvote count"""
+        return obj.info_user_set.filter(
+            has_upvoted=True
+        ).count()
+
+    def get_view_count(self, obj):
+        """Return view count"""
+        return obj.info_user_set.filter(
+            has_viewed=True
+        ).count()
+
     class Meta:
         model = Question
-        fields = ('id', 'text', 'user', 'answers', 'created_at', 'tags')
+        fields = ('id', 'text', 'user', 'answers', 'created_at', 'tags',
+                  'info_user', 'upvote_count', 'view_count')
         read_only_fields = ('id', 'created_at')
