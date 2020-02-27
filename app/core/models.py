@@ -303,7 +303,7 @@ class Message(models.Model):
                 MessageUser(
                     user=user_itr,
                     is_read=False if user_itr.id != self.user.id else True,
-                    message=instance)
+                    message=self)
                 for user_itr in self.chat_room.users.all()
             ])
         changed_fields = self.tracker.changed()
