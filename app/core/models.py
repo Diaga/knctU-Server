@@ -298,6 +298,14 @@ class Message(models.Model):
             force_insert=force_insert, force_update=force_update, using=using,
             update_fields=update_fields
         )
+        if self.message_users.count() == 0:
+            MessageUser.objects.bulk_create([
+                MessageUser(
+                    user=user_itr,
+                    is_read=False if user_itr.id != self.user.id else True,
+                    message=instance)
+                for user_itr in self.chat_room.users.all()
+            ])
         changed_fields = self.tracker.changed()
         if len(changed_fields) != 0:
             ChatRoomHandler.update_chat_room(
