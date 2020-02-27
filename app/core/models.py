@@ -110,13 +110,13 @@ class InfoUser(models.Model):
         if len(changed_fields) != 0:
             if self.question:
                 QuestionHandler.update_question('UPDATE_QUESTION',
-                                                self.question, user=self.user)
+                                                self.question)
             elif self.answer:
-                QuestionHandler.update_question('UPDATE_QUESTION', self.question, user=self.user)
+                QuestionHandler.update_question('UPDATE_QUESTION', self.answer.question)
             elif self.comment:
-                QuestionHandler.update_question('UPDATE_QUESTION', self.answer.question, user=self.user)
+                QuestionHandler.update_question('UPDATE_QUESTION', self.comment.answer.question)
             elif self.reply:
-                QuestionHandler.update_question('UPDATE_QUESTION', self.comment.answer.question, user=self.user)
+                QuestionHandler.update_question('UPDATE_QUESTION', self.reply.comment.answer.question)
 
         return instance
 
