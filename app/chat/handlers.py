@@ -26,13 +26,6 @@ class ChatRoomHandler(GenericHandler):
                 serializer = MessageSerializer(data=self.data['payload'])
                 if serializer.is_valid(raise_exception=True):
                     message = serializer.save()
-                MessageUser.objects.bulk_create([
-                    MessageUser(
-                        user=user_itr,
-                        is_read=False if user_itr.id != self.user.id else True,
-                        message=message)
-                    for user_itr in message.chat_room.users.all()
-                ])
             elif self.info == 'UPDATE_MESSAGE_USER':
                 message_user = MessageUser.objects.filter(
                     id=self.data['payload'].get('id', None)
