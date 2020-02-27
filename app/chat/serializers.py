@@ -27,7 +27,7 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = ('id', 'user', 'text', 'message_users', 'user_id',
-                  'chat_room')
+                  'chat_room', 'created_at')
         read_only_fields = ('id', 'created_at', 'message_users')
         extra_kwargs = {
             'chat_room': {'write_only': True}
