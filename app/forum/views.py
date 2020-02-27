@@ -79,6 +79,10 @@ class AnswerViewSet(viewsets.GenericViewSet,
 
     queryset = Answer.objects.all()
 
+    def perform_create(self, serializer):
+        """Update with user"""
+        serializer.save(user=self.request.user)
+
     def create_answer(self, request, *args, **kwargs):
         """Wrapper around create method for view set distinction"""
         return self.create(request, *args, **kwargs)

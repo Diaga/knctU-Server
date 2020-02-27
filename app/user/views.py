@@ -21,10 +21,27 @@ class UserViewSet(viewsets.GenericViewSet,
 
     serializer_class = serializers.UserSerializer
 
+    def get_queryset(self):
+        """Query options"""
+        queryset = super(UserViewSet, self).get_queryset()
+        name = self.request.GET.get('name', None)
+        if name is not None:
+            queryset = queryset.filter(
+                name__startwith=name
+            ).all()
+        return queryset
+
     def view_user(self, request, *args, **kwargs):
-        """Return users"""
+        """Return user"""
         serializer = self.get_serializer(
             self.request.user
+        )
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def list_user(self, request, *args, **kwargs):
+        """List users"""
+        serializer = self.get_serializer(
+            self.get_queryset(), many=True
         )
         return Response(serializer.data, status=status.HTTP_200_OK)
 
