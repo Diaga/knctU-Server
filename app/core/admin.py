@@ -25,6 +25,7 @@ class UserAdmin(BaseUserAdmin):
 
 # User
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.InfoUser)
 
 # Forum
 admin.site.register(models.Question)
