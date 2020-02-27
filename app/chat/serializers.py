@@ -37,8 +37,12 @@ class MessageSerializer(serializers.ModelSerializer):
 class ChatRoomSerializer(serializers.ModelSerializer):
     """Serializer for ChatRoom model"""
 
-    messages = MessageSerializer(many=True, read_only=True)
+    messages = serializers.SerializerMethodField('get_messages')
     users = UserSerializer(many=True, required=False)
+
+    def get_messages(self, obj):
+        """Return ordered messages"""
+        return MessageSerializer(obj.messages.order_by('-created_at').all(), many=True).data
 
     class Meta:
         model = ChatRoom
