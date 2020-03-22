@@ -62,7 +62,6 @@ services:
 
 networks:
   net:
-    name: network
 
 volumes:
   postgres_data:
