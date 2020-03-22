@@ -46,7 +46,7 @@ services:
     build: ./nginx
     ports:
       - 80:80
-      - 9001:9001
+      - 9000:9000
     volumes:
       - static_volume:/app/staticfiles
       - static_volume:/app/static
