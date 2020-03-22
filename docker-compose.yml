@@ -25,6 +25,8 @@ services:
       - DJANGO_SETTINGS_MODULE=app.production.settings
       - DJANGO_ALLOW_ASYNC_UNSAFE=True
       - DEBUG=False
+    networks:
+      - net
     depends_on:
       - db
 
@@ -38,6 +40,9 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     expose:
       - 5432
+    networks:
+      - net
+
   
   redis:
     image: redis:5-alpine
@@ -49,9 +54,15 @@ services:
       - 9000:9000
     volumes:
       - static_volume:/app/staticfiles
+    networks:
+      - net
     depends_on:
       - app
 
+
+networks:
+  net:
+    name: network
 
 volumes:
   postgres_data:
